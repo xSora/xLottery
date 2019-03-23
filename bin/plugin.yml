@@ -6,7 +6,6 @@ main: me.xSora.Main
 api-version: 1.13
 
 depend: [Vault]
-softdepend: [EssentialsX]
 
 commands:
    lottery:

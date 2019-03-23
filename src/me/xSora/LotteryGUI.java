@@ -23,29 +23,13 @@ public class LotteryGUI implements Listener{
 	private static ItemStack is_JoinLottery;
 	private static ItemStack is_GlobalLotteryStats;
 	
-	private static ItemStack is_admin_forceroll;
-	private static ItemStack is_admin_setwinner;
-	
-	static {
-		is_admin_forceroll = new ItemStack(Material.DIAMOND_BLOCK, 1);
-		ItemMeta meta_admin_forceroll = is_admin_forceroll.getItemMeta();
-		meta_admin_forceroll.setDisplayName("§cDebug Normal Roll");
-		is_admin_forceroll.setItemMeta(meta_admin_forceroll);
-		
-		is_admin_setwinner = new ItemStack(Material.BEDROCK, 1);
-		ItemMeta meta_admin_setwinner = is_admin_setwinner.getItemMeta();
-		meta_admin_setwinner.setDisplayName("§cDebug Roll 10");
-		is_admin_setwinner.setItemMeta(meta_admin_setwinner);
-		
-	}
-	
 	public static void SetStats(Player p) {
 		
 		  is_JoinLottery = new ItemStack(Material.DIAMOND, 1);
 		  ItemMeta meta_JoinLottery = is_JoinLottery.getItemMeta();
 		  meta_JoinLottery.setDisplayName(Messages.JOIN_LOTTERY(FileManager.config.getInt("Lottery.Price")));
 		  ArrayList<String> lore_JoinLottery = new ArrayList<String>();
-		  if(LotterySystem.HasBoughtTicket(p)) {
+		  if(Utils.HasBoughtTicket(p)) {
 			  meta_JoinLottery.setDisplayName(Messages.BUY_NEW_TICKET());
 			  int lottoid = LotterySystem.lottery.get(p.getUniqueId().toString());
 			  lore_JoinLottery.add(Messages.CURRENT_LOTTERY_TICKET(lottoid));
@@ -53,6 +37,7 @@ public class LotteryGUI implements Listener{
 			  meta_JoinLottery.setDisplayName(Messages.JOIN_LOTTERY(FileManager.config.getInt("Lottery.Price")));
 			  lore_JoinLottery.add(Messages.NO_LOTTERY_TICKET());
 		  }
+		  
 		  meta_JoinLottery.setLore(lore_JoinLottery);
 		  is_JoinLottery.setItemMeta(meta_JoinLottery);
 		
@@ -75,6 +60,7 @@ public class LotteryGUI implements Listener{
 		
 		
 	}
+	
 	
 	@SuppressWarnings("deprecation")
 	@EventHandler
@@ -99,17 +85,6 @@ public class LotteryGUI implements Listener{
 					}
 				e.setCancelled(true);
 				p.closeInventory();
-				}
-				if(clicked.getI18NDisplayName() == is_admin_forceroll.getI18NDisplayName()) {
-					LotterySystem.ChooseWinner(true);
-					e.setCancelled(true);
-					p.closeInventory();
-				}
-				
-				if(clicked.getI18NDisplayName() == is_admin_setwinner.getI18NDisplayName()) {
-					LotterySystem.ChooseWinner(false);
-					e.setCancelled(true);
-					p.closeInventory();
 				}
 			}
 		}

@@ -33,33 +33,17 @@ public class LotterySystem {
 		}
 			FileManager.Save(cFile.config);
 	}
-	
-	public static boolean HasBoughtTicket(Player p) {
-		String UUID = p.getUniqueId().toString();
-		if(lottery.containsKey(UUID)) {
-			return true;
-		}else {
-			return false;
-		}
-	}
-	
-	
+
 	public static void AddLotteryPlayer(Player p, int Number) {
 		String UUID = p.getUniqueId().toString();
 		lottery.put(UUID, Number);
 		SaveLottery();
 	}
 	
-	public static void ChooseWinner(boolean Test) {
+	public static void ChooseWinner() {
 		LoadLottery();
-		int WinningNumber = 0;
-		if(!Test) {
-			Random rand = new Random();
-			WinningNumber = rand.nextInt(FileManager.config.getInt("Lottery.MaxNumber"));
-		}else {
-			Bukkit.broadcastMessage("§cLottery ADMIN Force Roll");
-			WinningNumber = 10;
-		}
+		Random rand = new Random();
+		int WinningNumber = rand.nextInt(FileManager.config.getInt("Lottery.MaxNumber"));
 		Bukkit.broadcastMessage(Messages.LOTTERY_ROLLED_NUMBER_BROADCAST(WinningNumber));
 		
 		//Get all Winners
@@ -99,9 +83,8 @@ public class LotterySystem {
             		WinnerName = op.getName();
             	}
             	Bukkit.broadcastMessage(Messages.LOTTERY_WINNERS_BROADCAST(WinnerName));
-        		//Aufräumen
+        		//Lottery Reset
         		}
-        		FileManager.config.set("Lottery.CurrentPool", 0);
         		SetWinnerDisplay(WinAmount, WinningNumber);
             	
         }
@@ -115,6 +98,7 @@ public class LotterySystem {
 	}
 	
 	private static void ClearLottery() {
+		FileManager.config.set("Lottery.CurrentPool", 0);
 		FileManager.lottery.set("Lottery", null);
 		FileManager.lottery.set("REGISTER", null);
 		lottery.clear();

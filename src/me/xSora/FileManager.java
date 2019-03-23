@@ -5,27 +5,22 @@ import java.io.IOException;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
-public class FileManager{
+public class FileManager{	//Manages all Files
 	
 	enum cFile {
 		config,
 		language,
 		lottery
 	}
-	//Config Manager//
 	
 	private static File configFile;
-	private static File BconfigFile;
 	public static YamlConfiguration config;
 	
-	public static File lotteryFile;
+	private static File lotteryFile;
 	public static YamlConfiguration lottery;
 	
 	private static File languageFile;
-	private static File BlanguageFile;
 	public static YamlConfiguration language;
-	
-	//TODO Fix Files
 	
 	
 	public static void LoadConfigStuff() {
@@ -35,10 +30,6 @@ public class FileManager{
 	    
 	    languageFile = new File(Main.plugin.getDataFolder(), "language.yml");
 	    
-	    BconfigFile = new File(Main.plugin.getDataFolder(), "config.yml.BACKUP");
-	    //BlotteryFile = new File(Main.plugin.getDataFolder(), "lottery.yml.BACKUP");
-	    BlanguageFile = new File(Main.plugin.getDataFolder(), "language.yml.BACKUP");
-	    
 	    config = YamlConfiguration.loadConfiguration(configFile);
 	    lottery = YamlConfiguration.loadConfiguration(lotteryFile);
 	    language = YamlConfiguration.loadConfiguration(languageFile);
@@ -47,40 +38,16 @@ public class FileManager{
 	}
 	
 	private static void CheckFiles() {
-	    
-		String PluginVersion = Main.PluginVersion;
 		if(!configFile.exists()) {
 			CreateFile(cFile.config);
-		}else {
-			if(!config.getString("Version").equals(PluginVersion)) {
-				System.err.println("WARNING! Your Config File Version is NOT UP TO DATE, This MAY cause Errors!");
-			}
 			
 		}
 		if(!languageFile.exists()) {
 			CreateFile(cFile.language);
-		}else {
-			if(!language.getString("Version").equals(PluginVersion)) {
-				System.err.println("WARNING! Your Language File Version is NOT UP TO DATE, This MAY cause Errors!");
-			}
 		}
 		
 	}
-	
-	@SuppressWarnings("incomplete-switch")
-	public static void Delete(cFile f) {
-		switch(f) {
-		case config:
-			configFile.renameTo(BconfigFile);
-			CreateFile(cFile.config);
-			break;
-		case language:
-			languageFile.renameTo(BlanguageFile);
-			CreateFile(cFile.config);
-			break;
-		}
-	}
-	
+
 	public static void Save(cFile f) {
 		switch(f) {
 			case config:
@@ -112,25 +79,22 @@ public class FileManager{
 		}
 	}
 
-	@SuppressWarnings("incomplete-switch")
+	@SuppressWarnings("incomplete-switch") //We do not need to create an lottery.yml because it is created in the LotterySystem.java !
 	public static void CreateFile(cFile f) {
 		switch(f) {
 			case config:
-				config.set("Version", Main.PluginVersion);
-				config.set("Lottery.Drawing", 720);		//Drawing in 720 Minutes
+				config.set("Lottery.Drawing", 720);		//New Drawing
 				config.set("Lottery.NextDrawing", 720);
 				config.set("Lottery.Price", 1000);
 				config.set("Lottery.Fee", 200);
 				config.set("Lottery.CurrentPool", 0);
 				config.set("Lottery.MaxNumber", 999999);
-				config.set("Lottery.LastWinner", null);
 				config.set("Lottery.LastWonAmount", 0);
 				config.set("Lottery.LastWonNumber", 0);
 				Save(cFile.config);
 				break;
 				//
 			case language:
-				language.set("Version", Main.PluginVersion);
 				language.set("COMMAND_USAGE", "&cUsage: /lottery");
 				language.set("JOIN_LOTTERY", "&aJoin Lottery (Price: #VALUE#)");
 				language.set("BUY_NEW_TICKET", "&bBuy New Ticket");
@@ -159,7 +123,6 @@ public class FileManager{
 				
 				Save(cFile.language);
 				break;
-				//
 		}
 	}
 }

@@ -32,5 +32,14 @@ public class Utils {
             }
         throw new IllegalArgumentException();
     }
+    
+	public static boolean HasBoughtTicket(Player p) {
+		String UUID = p.getUniqueId().toString();
+		if(LotterySystem.lottery.containsKey(UUID)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 
 }

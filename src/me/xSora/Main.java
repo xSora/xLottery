@@ -16,18 +16,13 @@ public class Main extends JavaPlugin{
 	/*
 	 * TODO
 	 * - Fix Last won Number
-	 * - add offline mail support (essentials)
+	 * 
 	 */
 	
 	public final String PluginName = "xLottery";
-	public static String PluginVersion;
     public static Economy econ = null;
-    public static final boolean isTesting = false;
 	
 	public void onEnable() {
-		System.out.println("["+PluginName+"] Loaded!");
-		PluginVersion = this.getDescription().getVersion();
-		
 		//COMMANDS
 		this.getCommand("lottery").setExecutor(new Command());
 		
@@ -37,6 +32,7 @@ public class Main extends JavaPlugin{
 		//LOAD AFTER START
 		FileManager.LoadConfigStuff();
 		setupEconomy();
+		LotterySystem.LoadLottery();
 		
 		new BukkitRunnable()
 		{
@@ -48,7 +44,7 @@ public class Main extends JavaPlugin{
 		    	FileManager.config.set("Lottery.NextDrawing", NewCounter);
 		    	FileManager.Save(cFile.lottery);
 		    	if(CurrentCounter <= 0) {
-		    		LotterySystem.ChooseWinner(false);
+		    		LotterySystem.ChooseWinner();
 		    	}
 		    }
 		}.runTaskTimer(this, 0L, 20L*60);
@@ -66,10 +62,5 @@ public class Main extends JavaPlugin{
         econ = rsp.getProvider();
         return econ != null;
     }
-	
-	
-	public void onDisable() {
-		System.out.println("["+PluginName+"] Disabled!");
-	}
 
 }
