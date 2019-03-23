@@ -1,0 +1,13 @@
+name: xLottery
+version: 1.0.0
+autor: [xSora]
+
+main: me.xSora.Main
+api-version: 1.13
+
+depend: [Vault]
+softdepend: [EssentialsX]
+
+commands:
+   lottery:
+     description: Lottery
