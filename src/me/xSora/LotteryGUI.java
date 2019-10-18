@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -17,7 +18,7 @@ import me.xSora.FileManager.cFile;
 
 
 public class LotteryGUI implements Listener{
-	public static Inventory LotteryGUI = Bukkit.createInventory(null, 9, "§6Lottery §7by xSora");
+	public static Inventory LotteryGUI = Bukkit.createInventory(null, 9, "§6Lottery");
 	
 	
 	private static ItemStack is_JoinLottery;
@@ -60,19 +61,18 @@ public class LotteryGUI implements Listener{
 		
 		
 	}
+	//getName deprecated
 	
-	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
 		Player p = (Player)e.getWhoClicked();
 		ItemStack clicked = e.getCurrentItem();
-		Inventory inventory = e.getInventory();
-		if(inventory.getName().equals(LotteryGUI.getName())) {
+		InventoryView inventory = e.getView();
+		if(inventory.getTitle().equals("§6Lottery")) {
 			if(clicked == null) {
 				return;
 			}else {
-				if(clicked.getI18NDisplayName() == is_JoinLottery.getI18NDisplayName()) {
+				if(clicked.getItemMeta().getDisplayName().equals(is_JoinLottery.getItemMeta().getDisplayName())) {
 					if(Main.econ.getBalance(p) >= FileManager.config.getInt("Lottery.Price")){
 						Main.econ.withdrawPlayer(p, FileManager.config.getInt("Lottery.Price"));
 						p.sendMessage(Messages.ADD_LOTTERY_NUMBER());
@@ -83,9 +83,9 @@ public class LotteryGUI implements Listener{
 						e.setCancelled(true);
 						p.closeInventory();
 					}
+				}
 				e.setCancelled(true);
 				p.closeInventory();
-				}
 			}
 		}
 	}
