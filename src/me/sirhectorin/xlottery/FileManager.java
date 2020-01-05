@@ -1,4 +1,4 @@
-package me.xSora;
+package me.sirhectorin.xlottery;
 
 import java.io.File;
 import java.io.IOException;
@@ -101,7 +101,7 @@ public class FileManager{	//Manages all Files
 				language.set("CURRENT_LOTTERY_TICKET", "&6Current Lottery Ticket: #VALUE#");
 				language.set("NO_LOTTERY_TICKET", "&cYou do not own a Lottery Ticket!");
 				language.set("GLOBAL_LOTTERY_STATS", "&6Global Lottery Stats");
-				language.set("ADD_LOTTERY_NUMBER", "&6Please Enter your Lottery Number, Type cancel to Cancel!");
+				language.set("ADD_LOTTERY_NUMBER", "&6Please Enter your Lottery Number, Type &c#VALUE# &6to Cancel!");
 				language.set("NEXT_LOTTERY_DRAWING", "&eNext Lottery Drawing in #VALUE# Minutes");
 				language.set("ADD_LOTTERY_CANCELLED", "&6Buying Lottery Ticket Cancelled!");
 				language.set("CURRENT_WIN_POOL", "&eCurrent Win Pool: #VALUE#");
@@ -115,12 +115,14 @@ public class FileManager{	//Manages all Files
 				language.set("LOTTERY_ADD_FAILED_TOOBIG", "&6'#VALUE#' is too Big!");
 				language.set("LOTTERY_ADD_FAILED_NOTVALID", "&6'#VALUE#' is not a Valid Number");
 				
-				language.set("LOTTERY_NO_WINNER", "&cLottery has no Winners. Next Roll in #VALUE# Minutes!");
+				language.set("LOTTERY_NO_WINNER", "&cLottery has no Winners. Acumulated poll: &a#POOL# &6Next Roll in #VALUE# Minutes!");
 				language.set("LOTTERY_WINNERS_BROADCAST", "&6#VALUE# WON IN THE LOTTERY! Congratulations!");
 				language.set("LOTTERY_WINNERS_PRIVATE", "&6You Won #VALUE# in the Lottery, Congratulations!");
 				language.set("LOTTERY_ROLLED_NUMBER_BROADCAST", "&6Rolled Number is: #VALUE#");
 				language.set("LOTTERY_OFFLINE_PLAYER_MAIL", "&aCongratulations &b#PLAYERNAME#&a, Your Number &c#NUMBER#&a won the Lottery, you were awarded &c#AMOUNT# &a$.");
-				
+				language.set("CANCEL", "cancel");
+                                language.set("ONE_MINUTE_LEFT", "&6Only 1 minute left to roll the lottery");
+                                
 				Save(cFile.language);
 				break;
 		}

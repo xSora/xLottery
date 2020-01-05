@@ -1,12 +1,14 @@
 name: xLottery
 version: 1.0.0
-autor: [xSora]
+autor: [xSora & SirHectorin]
 
-main: me.xSora.Main
-api-version: 1.13
+main: me.sirhectorin.xlottery.Main
+api-version: 1.15
 
 depend: [Vault]
 
 commands:
    lottery:
+     description: Lottery
+   lot:
      description: Lottery

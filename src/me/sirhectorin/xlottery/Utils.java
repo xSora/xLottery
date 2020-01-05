@@ -1,20 +1,26 @@
-package me.xSora;
+package me.sirhectorin.xlottery;
 
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class Utils {
 	
-	public static boolean isInt(String s) {
-	    try {
-	        Integer.parseInt(s);
-	    } catch (NumberFormatException nfe) {
-	        return false;
-	    }
-	    return true;
-	}
+    public static String c(String text){
+        return ChatColor.translateAlternateColorCodes('&', text);
+    }
+    
+    public static boolean isInt(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+    
     public static Player getPlayerByUuid(UUID uuid) {
         for(Player p : Bukkit.getServer().getOnlinePlayers())
             if(p.getUniqueId().equals(uuid)){
