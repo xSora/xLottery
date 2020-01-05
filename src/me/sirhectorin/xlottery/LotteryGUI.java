@@ -32,7 +32,7 @@ public class LotteryGUI{
         lotteryGUI.show(p);
     }
 
-    public static Inventory LotteryGUI = Bukkit.createInventory(null, 9, "�6Lottery");
+    public static Inventory LotteryGUI = Bukkit.createInventory(null, 9, Messages.GUI_TITLE());
 
     public void LoadItems(Player p) {
         ItemMeta meta_JoinLottery = is_JoinLottery.getItemMeta();

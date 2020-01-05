@@ -14,6 +14,10 @@ public class Messages {
             return Utils.c(FileManager.language.getString("BUY_NEW_TICKET"));
 	}
         
+        public static String GUI_TITLE(){
+            return Utils.c(FileManager.language.getString("GUI_TITLE"));
+        }
+        
         public static String CANCEL() {
             return Utils.c(FileManager.language.getString("CANCEL"));
 	}

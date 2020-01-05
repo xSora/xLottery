@@ -95,6 +95,7 @@ public class FileManager{	//Manages all Files
 				break;
 				//
 			case language:
+				language.set("GUI_TITLE", "&6Lottery");
 				language.set("COMMAND_USAGE", "&cUsage: /lottery");
 				language.set("JOIN_LOTTERY", "&aJoin Lottery (Price: #VALUE#)");
 				language.set("BUY_NEW_TICKET", "&bBuy New Ticket");

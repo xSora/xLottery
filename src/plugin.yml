@@ -1,6 +1,6 @@
 name: xLottery
 version: 1.0.0
-autor: [xSora & SirHectorin]
+autor: [xSora, SirHectorin]
 
 main: me.sirhectorin.xlottery.Main
 api-version: 1.15
