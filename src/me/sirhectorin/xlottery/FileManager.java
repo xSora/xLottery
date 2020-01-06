@@ -97,12 +97,12 @@ public class FileManager{	//Manages all Files
 			case language:
 				language.set("GUI_TITLE", "&6Lottery");
 				language.set("COMMAND_USAGE", "&cUsage: /lottery");
-				language.set("JOIN_LOTTERY", "&aJoin Lottery (Price: #VALUE#)");
-				language.set("BUY_NEW_TICKET", "&bBuy New Ticket");
-				language.set("CURRENT_LOTTERY_TICKET", "&6Current Lottery Ticket: #VALUE#");
+				language.set("JOIN_LOTTERY", "&aJoin Lottery (Price: #VALUE# per ticket)");
+				language.set("BUY_NEW_TICKET", "&bBuy More Tickets");
+				language.set("CURRENT_LOTTERY_TICKET", "&6Current Lottery Tickets:");
 				language.set("NO_LOTTERY_TICKET", "&cYou do not own a Lottery Ticket!");
 				language.set("GLOBAL_LOTTERY_STATS", "&6Global Lottery Stats");
-				language.set("ADD_LOTTERY_NUMBER", "&6Please Enter your Lottery Number, Type &c#VALUE# &6to Cancel!");
+				language.set("ADD_LOTTERY_NUMBER", "&6Please Enter your Lottery Numbers separated by spaces, type &c#VALUE# &6to Cancel!");
 				language.set("NEXT_LOTTERY_DRAWING", "&eNext Lottery Drawing in #VALUE# Minutes");
 				language.set("ADD_LOTTERY_CANCELLED", "&6Buying Lottery Ticket Cancelled!");
 				language.set("CURRENT_WIN_POOL", "&eCurrent Win Pool: #VALUE#");
@@ -112,7 +112,7 @@ public class FileManager{	//Manages all Files
 				
 				language.set("LOTTERY_NOT_ENOUG_MONEY", "&cNot Enough Money, Required: #VALUE#");
 				
-				language.set("LOTTERY_ADD_SUCCESSFULL", "&6'#VALUE#' was Successfully Registered!");
+				language.set("LOTTERY_ADD_SUCCESSFULL", "&6Good Luck! Your Numbers: #VALUE#!");
 				language.set("LOTTERY_ADD_FAILED_TOOBIG", "&6'#VALUE#' is too Big!");
 				language.set("LOTTERY_ADD_FAILED_NOTVALID", "&6'#VALUE#' is not a Valid Number");
 				

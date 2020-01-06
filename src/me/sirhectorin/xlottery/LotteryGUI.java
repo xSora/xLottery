@@ -5,6 +5,7 @@ import com.github.stefvanschie.inventoryframework.GuiItem;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -20,7 +21,7 @@ import me.sirhectorin.xlottery.FileManager.cFile;
 
 
 public class LotteryGUI{
-    Gui lotteryGUI = new Gui(Main.plugin, 1, "�6Lottery");
+    Gui lotteryGUI = new Gui(Main.plugin, 1, Messages.GUI_TITLE());
     StaticPane pane = new StaticPane(0,0, 9, 1);
     //items
     private ItemStack is_JoinLottery = new ItemStack(Material.DIAMOND, 1);
@@ -32,15 +33,15 @@ public class LotteryGUI{
         lotteryGUI.show(p);
     }
 
-    public static Inventory LotteryGUI = Bukkit.createInventory(null, 9, Messages.GUI_TITLE());
-
     public void LoadItems(Player p) {
         ItemMeta meta_JoinLottery = is_JoinLottery.getItemMeta();
         ArrayList<String> lore_JoinLottery = new ArrayList<String>();
         if(Utils.HasBoughtTicket(p)) {
             meta_JoinLottery.setDisplayName(Messages.BUY_NEW_TICKET());
-            int lottoid = LotterySystem.lottery.get(p.getUniqueId().toString());
-            lore_JoinLottery.add(Messages.CURRENT_LOTTERY_TICKET(lottoid));
+            ArrayList<Integer> lottoid = LotterySystem.lottery.get(p.getUniqueId().toString());
+            lore_JoinLottery.add(Messages.CURRENT_LOTTERY_TICKET());
+            lore_JoinLottery.add(Utils.c("&6" + lottoid.stream().map(Object::toString)
+                        .collect(Collectors.joining(" "))));
         }else{
             meta_JoinLottery.setDisplayName(Messages.JOIN_LOTTERY(FileManager.config.getInt("Lottery.Price")));
             lore_JoinLottery.add(Messages.NO_LOTTERY_TICKET());
@@ -79,8 +80,5 @@ public class LotteryGUI{
                 p.closeInventory();
         }
         p.closeInventory();
-    }
-
-    
-	
+    }	
 }

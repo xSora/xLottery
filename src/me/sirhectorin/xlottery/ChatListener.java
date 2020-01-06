@@ -6,7 +6,10 @@
 package me.sirhectorin.xlottery;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,29 +34,37 @@ public class ChatListener implements Listener{
         if(register) {
             e.setCancelled(true);
             String Message = e.getMessage();
-            if(Message.equalsIgnoreCase(Messages.CANCEL()) || Message.equalsIgnoreCase("")) {
+            if(Message.equalsIgnoreCase(Messages.CANCEL()) || Message.isEmpty()) {
                 writing.remove(pid);
                 p.sendMessage(Messages.ADD_LOTTERY_CANCELLED());
             }else{
-                if(Utils.isInt(Message)) {
-                    int lottoid = Integer.parseInt(Message);
-                    if(lottoid <= FileManager.config.getInt("Lottery.MaxNumber")){
-                            LotterySystem.AddLotteryPlayer(p, lottoid);
-                            int OldPool = FileManager.config.getInt("Lottery.CurrentPool");
-                            int ToAdd = (FileManager.config.getInt("Lottery.Price") - FileManager.config.getInt("Lottery.Fee"));
-                            FileManager.config.set("Lottery.CurrentPool", (OldPool + ToAdd));
-                            writing.remove(pid);
-                            FileManager.Save(FileManager.cFile.lottery);
-                            p.sendMessage(Messages.LOTTERY_ADD_SUCCESSFULL(Message));
-                            Main.econ.withdrawPlayer(p, FileManager.config.getInt("Lottery.Price"));
-                    }else {
-                            p.sendMessage(Messages.LOTTERY_ADD_FAILED_TOOBIG(Message));
-                            FileManager.Save(FileManager.cFile.lottery);
-                    }
-                }else {
+                List<Integer> nums;
+                try{
+                    nums = Arrays.stream(Message.split(" ")).distinct()
+                            .map(s -> Integer.parseInt(s))
+                            .filter(n -> n <= FileManager.config.getInt("Lottery.MaxNumber") && n >= 0)
+                            .collect(Collectors.toList());
+                }catch(NumberFormatException ex){
+                    p.sendMessage(Messages.ADD_LOTTERY_NUMBER(Messages.CANCEL()));
+                    return;
+                }
+                int totalprice = nums.size()* FileManager.config.getInt("Lottery.Price");
+                
+                //if(Utils.isInt(Message)) {
+                if(totalprice <= Main.econ.getBalance(p)){
+                    LotterySystem.AddLotteryPlayer(p, new ArrayList<Integer>(nums));
+                    int OldPool = FileManager.config.getInt("Lottery.CurrentPool");
+                    int ToAdd = nums.size() * ((FileManager.config.getInt("Lottery.Price") - FileManager.config.getInt("Lottery.Fee")));
+                    FileManager.config.set("Lottery.CurrentPool", (OldPool + ToAdd));
+                    writing.remove(pid);
+                    FileManager.Save(FileManager.cFile.lottery);
+                } else {
+                    p.sendMessage(Messages.LOTTERY_NOT_ENOUG_MONEY(totalprice));
+                }
+                /*}else {
                         p.sendMessage(Messages.LOTTERY_ADD_FAILED_NOTVALID(Message));
                         FileManager.Save(FileManager.cFile.lottery);
-                }
+                }*/
             }
         }
     }
