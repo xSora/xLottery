@@ -87,6 +87,10 @@ public class Messages {
             return Utils.c(FileManager.language.getString("LOTTERY_WINNERS_PRIVATE"))
                 .replace("#VALUE#", ""+Amount);
 	}
+	public static String NEW_POOL_UPDATE() {
+            return Utils.c(FileManager.language.getString("NEW_POOL_UPDATE"))
+                .replace("#POOL#", ""+FileManager.config.getLong("Lottery.CurrentPool"));
+	}
 	public static String LOTTERY_OFFLINE_PLAYER_MAIL(String Name, int Amount, int Number) {
 		return Utils.c(FileManager.language.getString("LOTTERY_OFFLINE_PLAYER_MAIL"))
                     .replace("#NUMBER#", ""+Number).replace("#AMOUNT#", ""+Amount)

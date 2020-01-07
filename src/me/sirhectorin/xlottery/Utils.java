@@ -47,5 +47,36 @@ public class Utils {
                     return false;
             }
     }
+    
+    public static String[] generateRange(String range) {
+        try{
+            String[] temp = range.split("\\.\\.");
+            long start = Integer.parseInt(temp[0]);
+            long end = Integer.parseInt(temp[1]);
+            
+            long aux;
+            if(start > end){
+                aux = end;
+                end = start;
+                start = aux;
+            }
+            aux = FileManager.config.getLong("Lottery.MaxNumber");
+            if(end > aux)
+                end = aux;
+            
+            String[] result = new String[(int)(end - start) + 1];
+            
+            for (int i = 0 ; i < result.length; i++) {
+                result[i] = String.valueOf(start++);
+            }
+            return result;
+        }catch(NumberFormatException ex){
+            return new String[]{range};
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
 
 }

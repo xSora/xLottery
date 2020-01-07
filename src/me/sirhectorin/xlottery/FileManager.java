@@ -83,10 +83,12 @@ public class FileManager{	//Manages all Files
 	public static void CreateFile(cFile f) {
 		switch(f) {
 			case config:
+                                config.set("Lottery.StartingPool", 10000);
 				config.set("Lottery.Drawing", 720);		//New Drawing
-				config.set("Lottery.NextDrawing", 720);
 				config.set("Lottery.Price", 1000);
 				config.set("Lottery.Fee", 200);
+                                config.options().header("PLEASE DO NOT MODIFY BELOW");
+                                config.set("Lottery.NextDrawing", 720);
 				config.set("Lottery.CurrentPool", 0);
 				config.set("Lottery.MaxNumber", 999999);
 				config.set("Lottery.LastWonAmount", 0);
@@ -102,7 +104,7 @@ public class FileManager{	//Manages all Files
 				language.set("CURRENT_LOTTERY_TICKET", "&6Current Lottery Tickets:");
 				language.set("NO_LOTTERY_TICKET", "&cYou do not own a Lottery Ticket!");
 				language.set("GLOBAL_LOTTERY_STATS", "&6Global Lottery Stats");
-				language.set("ADD_LOTTERY_NUMBER", "&6Please Enter your Lottery Numbers separated by spaces, type &c#VALUE# &6to Cancel!");
+				language.set("ADD_LOTTERY_NUMBER", "&6Please Enter your Lottery Numbers separated by spaces, you can use ranges. example: &a'2..5' &6from 2 to 5, type &c#VALUE# &6to Cancel!");
 				language.set("NEXT_LOTTERY_DRAWING", "&eNext Lottery Drawing in #VALUE# Minutes");
 				language.set("ADD_LOTTERY_CANCELLED", "&6Buying Lottery Ticket Cancelled!");
 				language.set("CURRENT_WIN_POOL", "&eCurrent Win Pool: #VALUE#");
@@ -123,6 +125,7 @@ public class FileManager{	//Manages all Files
 				language.set("LOTTERY_OFFLINE_PLAYER_MAIL", "&aCongratulations &b#PLAYERNAME#&a, Your Number &c#NUMBER#&a won the Lottery, you were awarded &c#AMOUNT# &a$.");
 				language.set("CANCEL", "cancel");
                                 language.set("ONE_MINUTE_LEFT", "&6Only 1 minute left to roll the lottery");
+                                language.set("NEW_POOL_UPDATE", "&Accumulated Win Pool: &a$#POOL#");
                                 
 				Save(cFile.language);
 				break;
