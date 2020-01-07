@@ -71,7 +71,7 @@ public class LotteryGUI{
         Player p = (Player) e.getWhoClicked();
         ItemStack clicked = e.getCurrentItem();
         if(Main.econ.getBalance(p) >= FileManager.config.getInt("Lottery.Price")){
-                ChatListener.addWritter(p.getUniqueId());
+                LotterySystem.addWritter(p.getUniqueId());
                 p.sendMessage(Messages.ADD_LOTTERY_NUMBER(Messages.CANCEL()));
                 FileManager.Save(cFile.lottery);
         }else {

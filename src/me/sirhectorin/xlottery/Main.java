@@ -1,5 +1,8 @@
 package me.sirhectorin.xlottery;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -52,6 +55,7 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener{
                         LotterySystem.ChooseWinner();
                     } else if(CurrentCounter == 1){
                         Bukkit.getServer().broadcastMessage(Messages.ONE_MINUTE_LEFT());
+                        Bukkit.getServer().broadcastMessage(Messages.NEW_POOL_UPDATE());
                     }
                 }
             }.runTaskTimer(this, 0L, 20L*60);
@@ -79,8 +83,9 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener{
                 new LotteryGUI(p);
                 return true;
             }else{
-                p.sendMessage(Messages.COMMAND_USAGE());
-                return false;
+                LotterySystem.pay4Tickets(p, args, false);                
+                return true;
+                //p.sendMessage(Messages.COMMAND_USAGE());
             }
         }
         return true;

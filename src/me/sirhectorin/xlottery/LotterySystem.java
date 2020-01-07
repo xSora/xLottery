@@ -1,6 +1,7 @@
 package me.sirhectorin.xlottery;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -18,6 +20,7 @@ import me.sirhectorin.xlottery.FileManager.cFile;
 public class LotterySystem {
     public static Map<String, ArrayList<Integer>> lottery = new HashMap<String, ArrayList<Integer>>();
     public static List<String> Winners = new ArrayList<String>();
+    private static final ArrayList<UUID> writing = new ArrayList<>();
     //Lottery Stuff
 
     public static void LoadLottery() {
@@ -102,7 +105,7 @@ public class LotterySystem {
                 //Lottery Reset
             }
             SetWinnerDisplay(WinAmount, WinningNumber);
-            FileManager.config.set("Lottery.CurrentPool", 0);
+            FileManager.config.set("Lottery.CurrentPool", FileManager.config.getLong("Lottery.StartingPool"));
         }
         ClearLottery();
     }
@@ -119,6 +122,57 @@ public class LotterySystem {
         Winners.clear();
         FileManager.Save(cFile.lottery);
         FileManager.config.set("Lottery.NextDrawing", FileManager.config.getInt("Lottery.Drawing"));
+    }
+    
+    public static void pay4Tickets(Player p, String[] Message, boolean isWritting){
+        UUID pid = p.getUniqueId();
+        List<Integer> nums;
+        
+            
+        nums = Arrays.stream(Message).distinct()
+                .flatMap(may -> !may.contains("..") ? Stream.of(may) 
+                           : 
+                           Stream.of(Utils.generateRange(may))
+                ).distinct()
+                .map(s -> {
+                    try{
+                        return Integer.parseInt(s);
+                    }catch(NumberFormatException ex){
+                        //if (isWritting)
+                        //    p.sendMessage(Messages.ADD_LOTTERY_NUMBER(Messages.CANCEL()));
+                        //else
+                            p.sendMessage(Messages.LOTTERY_ADD_FAILED_NOTVALID(s));
+                        return -1;
+                    }
+                })
+                .filter(n -> n <= FileManager.config.getInt("Lottery.MaxNumber") && n >= 0)
+                .collect(Collectors.toList());
+        if(nums.isEmpty())
+            return;
+        
+        int totalprice = nums.size()* FileManager.config.getInt("Lottery.Price");
+        
+        if(totalprice <= Main.econ.getBalance(p)){
+            LotterySystem.AddLotteryPlayer(p, new ArrayList<Integer>(nums));
+            int OldPool = FileManager.config.getInt("Lottery.CurrentPool");
+            int ToAdd = nums.size() * ((FileManager.config.getInt("Lottery.Price") - FileManager.config.getInt("Lottery.Fee")));
+            FileManager.config.set("Lottery.CurrentPool", (OldPool + ToAdd));
+            if(isWritting)
+                writing.remove(pid);
+            FileManager.Save(FileManager.cFile.lottery);
+            Bukkit.getServer().broadcastMessage(Messages.NEW_POOL_UPDATE());
+        } else {
+            p.sendMessage(Messages.LOTTERY_NOT_ENOUG_MONEY(totalprice));
+        }
+    }
+    public static void addWritter(UUID pid){
+        writing.add(pid);
+    }   
+    public static void delWritter(UUID pid){
+        writing.remove(pid);
+    }
+    public static boolean isWritter(UUID pid){
+        return writing.contains(pid);
     }
 	
 }
